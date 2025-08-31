@@ -1,0 +1,62 @@
+const exress = require("express");
+const morgan = require("morgan");
+const projectRoute = require("./routes/projectRoute");
+const { PORT } = require("./secret");
+const connectDB = require("./config/db");
+const createError = require("http-errors");
+const { errorResponse } = require("./controllers/ResponseController");
+const xssClean = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const authRoute = require("./routes/authRoute");
+const expenseRoute = require("./routes/expenseRoute");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
+const app = exress();
+
+const rateLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 100,
+  message: "Too many requests, please try again later after 5 minutes",
+});
+
+// middlewares
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(rateLimiter);
+// app.use(xssClean());
+app.use(exress.json());
+app.use(exress.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(morgan("dev"));
+
+// routes
+app.use("/api/v1/", projectRoute);
+app.use("/api/v1/", expenseRoute);
+app.use("/api/auth", authRoute);
+
+// clint error handling middleware
+app.use((req, res, next) => {
+  next(createError(404, "Page not found"));
+});
+
+// server error handling middleware
+app.use((err, req, res, next) => {
+  return errorResponse(res, {
+    statusCode: err.status || 500,
+    message: err.message,
+  });
+});
+
+app.listen(PORT, async () => {
+  try {
+    console.log(`Server is running on port ${PORT}`);
+    await connectDB();
+  } catch (error) {
+    console.log(" Server is not running : ", error);
+  }
+});
