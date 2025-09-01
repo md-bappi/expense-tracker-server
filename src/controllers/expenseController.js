@@ -63,6 +63,7 @@ const addExpense = async (req, res, next) => {
     const { id } = req.params;
     const { description, amount, category, date, additionalNotes, receipt } =
       req.body;
+    const user = req.user;
 
     const project = await Project.findById({ _id: id });
     if (!project) {
