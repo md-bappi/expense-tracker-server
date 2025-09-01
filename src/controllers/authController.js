@@ -47,8 +47,8 @@ const signUp = async (req, res, next) => {
     // set cookie
     res.cookie("access-token", token, {
       httpOnly: true,
-      secure: NODE_ENV === "production" ? true : false, // process.env.NODE_ENV === "production",
-      sameSite: NODE_ENV === "production" ? "none" : "lax", // "strict" or "lax"
+      secure: NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
     });
 
     // return success message
@@ -105,8 +105,8 @@ const login = async (req, res, next) => {
     // set cookie
     res.cookie("access-token", token, {
       httpOnly: true,
-      secure: NODE_ENV === "production" ? true : false, // process.env.NODE_ENV === "production",
-      sameSite: NODE_ENV === "production" ? "none" : "lax", // "strict" or "lax"
+      secure: NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
     });
 
     // Remove password before returning
