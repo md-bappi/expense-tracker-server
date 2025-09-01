@@ -1,5 +1,4 @@
 const exress = require("express");
-const morgan = require("morgan");
 const projectRoute = require("./routes/projectRoute");
 const { PORT } = require("./secret");
 const connectDB = require("./config/db");
@@ -43,7 +42,6 @@ app.use(rateLimiter);
 app.use(exress.json());
 app.use(exress.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(morgan("dev"));
 
 // routes
 app.use("/api/v1/", projectRoute);
