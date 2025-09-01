@@ -5,7 +5,6 @@ const { PORT } = require("./secret");
 const connectDB = require("./config/db");
 const createError = require("http-errors");
 const { errorResponse } = require("./controllers/ResponseController");
-const xssClean = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const authRoute = require("./routes/authRoute");
 const expenseRoute = require("./routes/expenseRoute");
@@ -28,7 +27,6 @@ app.use(
   })
 );
 app.use(rateLimiter);
-// app.use(xssClean());
 app.use(exress.json());
 app.use(exress.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -37,7 +35,7 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/v1/", projectRoute);
 app.use("/api/v1/", expenseRoute);
-app.use("/api/auth", authRoute);
+app.use("/api/v1/auth", authRoute);
 
 // clint error handling middleware
 app.use((req, res, next) => {
