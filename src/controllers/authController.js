@@ -42,7 +42,7 @@ const signUp = async (req, res, next) => {
     };
 
     // create token
-    const token = await createToken(userPayload, JWT_SECRET, "1h");
+    const token = await createToken(userPayload, JWT_SECRET, "7d");
 
     // set cookie
     res.cookie("access-token", token, {
@@ -100,7 +100,7 @@ const login = async (req, res, next) => {
     };
 
     // create token
-    const token = await createToken(userPayload, JWT_SECRET, "1h");
+    const token = await createToken(userPayload, JWT_SECRET, "7d");
 
     // set cookie
     res.cookie("access-token", token, {
