@@ -1,5 +1,5 @@
 const User = require("../models/authModel");
-const { JWT_SECRET } = require("../secret");
+const { JWT_SECRET, NODE_ENV } = require("../secret");
 const comparePassword = require("../utils/comparePassword");
 const hashPassword = require("../utils/hashPassword");
 const { createToken } = require("../utils/jwt");
@@ -47,8 +47,8 @@ const signUp = async (req, res, next) => {
     // set cookie
     res.cookie("access-token", token, {
       httpOnly: true,
-      sameSite: "lax", // "strict" or "lax"
-      secure: true, // process.env.NODE_ENV === "production",
+      secure: NODE_ENV === "production" ? true : false, // process.env.NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax", // "strict" or "lax"
     });
 
     // return success message
@@ -105,8 +105,8 @@ const login = async (req, res, next) => {
     // set cookie
     res.cookie("access-token", token, {
       httpOnly: true,
-      sameSite: "lax", // "strict" or "lax"
-      secure: true, // process.env.NODE_ENV === "production",
+      secure: NODE_ENV === "production" ? true : false, // process.env.NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax", // "strict" or "lax"
     });
 
     // Remove password before returning
