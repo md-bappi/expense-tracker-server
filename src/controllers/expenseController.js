@@ -38,7 +38,6 @@ const getUserExpenses = async (req, res, next) => {
 const getExpenses = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     const expenses = await Expense.find({ projectId: id });
     if (!expenses) {
@@ -64,7 +63,6 @@ const addExpense = async (req, res, next) => {
     const { id } = req.params;
     const { description, amount, category, date, additionalNotes, receipt } =
       req.body;
-    const user = req.user;
 
     const project = await Project.findById({ _id: id });
     if (!project) {
@@ -72,9 +70,6 @@ const addExpense = async (req, res, next) => {
         message: "Project not found",
       });
     }
-
-    console.log("project id:", id);
-    console.log("current user:", user);
 
     if (!user) {
       return res.status(404).json({

@@ -84,8 +84,6 @@ const login = async (req, res, next) => {
     // check if password is correct
     const isMatchPassword = await comparePassword(password, user.password);
 
-    console.log(isMatchPassword);
-    console.log(user);
     if (!isMatchPassword) {
       return errorResponse(res, {
         message: "Invalid credentials",

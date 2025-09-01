@@ -70,9 +70,6 @@ const postNewProject = async (req, res, next) => {
       projectNotes,
     } = req.body;
     const { _id } = req.user;
-    console.log(_id);
-
-    // const currentUser = await User.findById(user._id).select("-password");
 
     // Create a new project
     const newProject = new Project({
@@ -86,8 +83,6 @@ const postNewProject = async (req, res, next) => {
       userId: _id,
     });
 
-    console.log(newProject);
-
     // Save the new project to the database
     await newProject.save();
 
@@ -98,7 +93,6 @@ const postNewProject = async (req, res, next) => {
       payload: { newProject },
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -149,7 +143,6 @@ const updateProject = async (req, res, next) => {
       payload: updatedProject,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
