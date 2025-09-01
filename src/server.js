@@ -21,21 +21,24 @@ const rateLimiter = rateLimit({
 
 // middlewares
 const allowedOrigins = [
-  "http://localhost:5173/",
-  "https://expense-tracker-nu-black.vercel.app/",
+  "http://localhost:5173",
+  "https://expense-tracker-nu-black.vercel.app",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      console.log(origin);
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true,
   })
 );
+
 app.use(rateLimiter);
 app.use(exress.json());
 app.use(exress.urlencoded({ extended: true }));
